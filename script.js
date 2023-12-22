@@ -11,6 +11,7 @@ let tablero = [];
 let rows = 10;
 let columns = 10;
 
+let teclasPulsadas = 0;
 let anchuraTecla = 48;
 let alturaTecla = 48;
 let minasNum = 10;
@@ -18,7 +19,7 @@ let minasLocation = []; // formato de las posiciones 0-0, 2-5 (fila - columna)
 let banderasDisp=minasNum;
 
 let gameOver=false;
-
+crearTablero();
 botonFacil.addEventListener('click', () => {
     juego.style.width = "500px";
     juego.style.height = '500px';
@@ -75,6 +76,8 @@ function crearTablero(){
     tablero=[]; // Hay que ponerlo para que se pueda jugar, si se cambia de modo se borraran las teclas anteriores
     juego.innerHTML='';
     generaMinas();
+    minasRestantes.innerHTML = minasNum.toString();
+    menuMinas.innerHTML = '<h1>Minas: <span id="minasRestantes">'+ minasNum.toString()+'</span></h1>';
     for(let r=0; r<rows; r++){
         let row=[]
         for(let c=0; c<columns;c++){
@@ -103,9 +106,9 @@ function clickTecla(){
     let tecla = this;
     if (minasLocation.includes(tecla.id)) {
         // alert("GAME OVER");
-        
         gameOver = true;
         revelaMinas();
+        menuMinas.innerHTML = '<h1 style="color: red; font-size:3em;">BOOOOOMMM!!!</h1>';
         return;
     }
 
@@ -130,7 +133,7 @@ function compruebaBomba(r, c){
     }
 
     tablero[r][c].classList.add('comprobada');
-
+    teclasPulsadas +=1;
     let bombas = 0; // variable que lleva el recuento del numero de bombas adyacentes
     // comprobacion teclas de arriba
     bombas += calculaTecla(r-1, c-1);
@@ -166,8 +169,10 @@ function compruebaBomba(r, c){
         compruebaBomba(r+1, c-1);
         compruebaBomba(r+1, c);
         compruebaBomba(r+1, c+1);
-
-        // AÑADIR FUNCION QUE COMPUREBA SI HAN TEMINADO EL JUEGO
+    }
+    if(teclasPulsadas == rows*columns - minasNum){
+        gameOver=true;
+        menuMinas.innerHTML = '<h1 style="color: green; font-size: 3em;">¡Correcto!</h1>';
     }
 }
 
@@ -203,7 +208,6 @@ function poneBandera(){
     let coordenadas = tecla.id.split('-');
     let r = parseInt(coordenadas[0]);
     let c = parseInt(coordenadas[1]);
-    
 
     if(r < 0 || r >= rows || c < 0 || c >= columns){
         return;
@@ -215,12 +219,17 @@ function poneBandera(){
         tablero[r][c].classList.toggle('bandera');
         tablero[r][c].innerText='';
         banderasDisp += 1;
+        document.getElementById('minasRestantes').innerHTML = banderasDisp.toString();
     }else if(banderasDisp >0){
         tablero[r][c].classList.toggle('bandera');
         tablero[r][c].innerText='🚩';
         banderasDisp -= 1;
+        document.getElementById('minasRestantes').innerHTML = banderasDisp.toString();
     }else{
         return;
     }
-
+    if(teclasPulsadas == rows*columns - minasNum){
+        gameOver=true;
+        menuMinas.innerHTML = '<h1 style="color: green;" style="font-size:3em;">¡Correcto!</h1>';
+    }
 }
