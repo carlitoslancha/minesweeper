@@ -15,15 +15,18 @@ body{
 
 .lienzo{
     display: grid;
-    grid-template-columns: 0.25fr 0.5fr 0.25fr;
-    grid-template-rows: 0.2fr 1fr;
+    grid-template-columns: 15% 70% 15%;
+    grid-template-rows: 10% 90%;
     width: clamp(600px, 80%, 1500px);
-    height: 90vh;
-    border: 2px solid red;
+    height: 100vh;
+    /* border: 2px solid red; */
     justify-items: center;
     justify-self: center;
     align-items: center;
-    gap: 3em;
+    /* gap: 3em; */
+    row-gap: 1em;
+    column-gap: 2em;
+    box-sizing: content-box;
 
 }
 .cabecera{
@@ -38,11 +41,14 @@ body{
 .panel{
     grid-column: 2;
     grid-row: 2;
+    
 
 }
 .menu{
     grid-column: 3;
     grid-row: 2;
+    position: sticky;
+    left: 100;
 }
 
 button {
@@ -51,8 +57,10 @@ button {
     border: 2px solid #333; 
     border-radius: 5px; 
     cursor: pointer; 
-    width: 100%; 
-    margin-bottom: 10px; 
+    width: clamp(40px, 60%, 100%); 
+    margin-bottom: 1em;
+
+
 }
 
 #facil{
@@ -89,4 +97,40 @@ button {
 
 #juego div:hover{
     background-color: hsl(60, 1%, 39%);
+}
+
+.comprobada {
+    background-color: rgb(37, 37, 37);
+}
+
+.x1 {
+    color: blue;
+}
+
+.x2 {
+    color: green;
+}
+
+.x3 {
+    color: red;
+}
+
+.x4 {
+    color: navy;
+}
+
+.x5 {
+    color: brown;
+}
+
+.x6 {
+    color: teal;
+}
+
+.x7 {
+    color: black;
+}
+
+.x8 {
+    color: gray;
 }
