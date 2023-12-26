@@ -4,6 +4,16 @@
     padding: 0;
 }
 
+:root{
+    --color-primario: hsl(201, 87%, 85%);
+    --color-secundario: hsl(21, 89%, 71%);
+    --color-borde-tablero: hsl(40, 33%, 96%) ;
+    --color-tablero: hsl(144, 82%, 47%);
+    --color-ficha-pulsada: hsl(14, 22%, 27%);
+    --color-hover: hsl(185, 84%, 38%);
+    --color-bomba: hsl(0, 99%, 58%)
+}  
+
 body{
     display: flex;
     align-items: center;
@@ -11,6 +21,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
     text-align: center;
+    background-color: var(--color-primario);
 }
 
 .lienzo{
@@ -32,6 +43,7 @@ body{
 .cabecera{
     grid-column: 1 /span 3;
     grid-row: 1;
+    font-size: x-large;
 
 }
 .intrucciones{
@@ -39,8 +51,11 @@ body{
     grid-row: 2;
 }
 .panel{
+    display:flex;
+    flex-direction: column;
     grid-column: 2;
     grid-row: 2;
+    gap: 2em;
     
 
 }
@@ -76,8 +91,8 @@ button {
 #juego{
     width: 500px;
     height: 500px;
-    border: 10px solid darkgray;
-    background-color: lightgray;
+    border: 10px solid var(--color-borde-tablero);
+    background-color: var(--color-tablero);
 
     margin: 0 auto;
     display: flex;
@@ -86,7 +101,7 @@ button {
 #juego div{
     width: 48px;
     height: 48px;
-    border: 1px solid whitesmoke;
+    border: 1px solid var(--color-secundario);
 
     font-size: 30px;
     display: flex;
@@ -96,27 +111,27 @@ button {
 }
 
 #juego div:hover{
-    background-color: hsl(60, 1%, 39%);
+    background-color: var(--color-hover);
 }
 
 .comprobada {
-    background-color: rgb(37, 37, 37);
+    background-color: var(--color-ficha-pulsada);
 }
 
 .x1 {
-    color: blue;
+    color: hsl(182, 82%, 93%);
 }
 
 .x2 {
-    color: green;
+    color: hsl(85, 35%, 81%);
 }
 
 .x3 {
-    color: red;
+    color: hsl(66, 47%, 43%);
 }
 
 .x4 {
-    color: navy;
+    color: hsl(69, 61%, 47%);
 }
 
 .x5 {
@@ -133,4 +148,7 @@ button {
 
 .x8 {
     color: gray;
+}
+#cifraInput {
+    width: 50px;
 }

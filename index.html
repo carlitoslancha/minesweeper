@@ -14,13 +14,12 @@
             <div class="cabecera"><h1>Buscaminas</h1></div>
             <div class="instrucciones">
                 <h2>Instrucciones del Buscaminas</h2>
-                <p>El Buscaminas es un juego de lógica donde el objetivo es descubrir todas las casillas sin minas.</p>
+                <p>El objetivo del juego es descubrir todas las casillas sin minas.</p>
                 <p>Reglas básicas:</p>
                 <ul>
                     <li>Haz clic en las casillas para revelarlas.</li>
                     <li>Si revelas una casilla con una mina, pierdes.</li>
                     <li>Las casillas mostrarán números que indican cuántas minas hay en las casillas adyacentes.</li>
-                    <li>Usa esta información para evitar las minas y descubrir todas las casillas seguras.</li>
                     <li>Gana al descubrir todas las casillas seguras sin hacer estallar ninguna mina.</li>
                 </ul>
                 <p>¡Buena suerte y disfruta del juego!</p>
@@ -29,12 +28,16 @@
             <div class="panel">
                 <div id="minasNum"><h1>Minas: <span id="minasRestantes"></span></h1></div>
                 <div id="juego"></div>
+                <div id="timer"><h2>Tiempo: <span id="time">00:00:00</span></h2></div>
+                <div class="banderin"><h2>Haz click derecho para usar 🚩</h2></div>
             </div>
             <div class="menu">
+                
                 <h2>Dificultad</h2>
                 <button id="facil" title="Nivel facil&#10;10 minas&#10;Tablero 10x10">Fácil</button>
                 <button id="medio" title="Nivel medio&#10;20 minas&#10;Tablero 20x20">Medio</button>
                 <button id="dificil" title="Nivel dificil&#10;30 minas&#10;Tablero 30x30">Difícil</button>
+                <h3>Personalizado: </h3><input type="number" id="cifraInput"><h4>Indica el numero de minas y pulsa enter para establecer la dificultad.</h4>
             </div>
         </div>
         <script src="script.js"></script>

@@ -1,6 +1,7 @@
 const botonFacil = document.getElementById("facil");
 const botonMedio = document.getElementById("medio");
 const botonDificil = document.getElementById("dificil");
+const botonPersonalizado = document.getElementById("cifraInput");
 
 const menuMinas = document.getElementById('minasNum');
 
@@ -19,42 +20,77 @@ let minasLocation = []; // formato de las posiciones 0-0, 2-5 (fila - columna)
 let banderasDisp=minasNum;
 
 let gameOver=false;
+
+let timer;
+let seconds = 0;
+let minutes = 0;
+let milliseconds = 0;
+let stopwatch = false; // variable booleana que se activa y desactiva cuando el reloj ha corrido por primera vez
+
 crearTablero();
-botonFacil.addEventListener('click', () => {
+
+function botonFacilFunc(n){
     juego.style.width = "500px";
     juego.style.height = '500px';
     anchuraTecla=48;
     alturaTecla=48;
     rows=10;
     columns=10;
-    minasNum=10;
+    minasNum=n;
     banderasDisp=minasNum;
     crearTablero()
-});
+}
 
-botonMedio.addEventListener('click', () => {
+function botonMedioFunc(n){
     juego.style.width = "620px";
     juego.style.height = '620px';
     anchuraTecla=40;
     alturaTecla=40;
     rows=15;
     columns=15;
-    minasNum=20;
+    minasNum=n;
     banderasDisp=minasNum;
     crearTablero();
-});
+}
 
-botonDificil.addEventListener('click', () => {
+function botonDificilFunc(n){
     juego.style.width = "720px";
     juego.style.height = '720px';
     anchuraTecla=35;
     alturaTecla=35;
     rows=20;
     columns=20;
-    minasNum=30;
+    minasNum=n;
     banderasDisp=minasNum;
     crearTablero();
+}
+botonFacil.addEventListener('click', function() {
+    botonFacilFunc(10);
 });
+
+botonMedio.addEventListener('click', function() {
+    botonMedioFunc(20);
+});
+
+botonDificil.addEventListener('click', function() {
+    botonDificilFunc(30);
+});
+
+botonPersonalizado.addEventListener('keyup', function(event) {
+    if(event.key !== 'Enter'){
+        return;
+    }
+    const valor = this.value;
+    if(valor < 1){return;}
+    if(valor < 26 ){
+        botonFacilFunc(valor);
+    }else if(valor < 56){
+        botonMedioFunc(valor);
+    }else if(valor<100){
+        botonDificilFunc(valor);
+    }else{return;}
+
+})
 
 function generaMinas() {
     let minesLeft = minasNum;
@@ -72,12 +108,14 @@ function generaMinas() {
 }
 
 function crearTablero(){
+    teclasPulsadas=0;
     gameOver=false;
     tablero=[]; // Hay que ponerlo para que se pueda jugar, si se cambia de modo se borraran las teclas anteriores
     juego.innerHTML='';
     generaMinas();
-    minasRestantes.innerHTML = minasNum.toString();
     menuMinas.innerHTML = '<h1>Minas: <span id="minasRestantes">'+ minasNum.toString()+'</span></h1>';
+    setTime0()
+    stopTimer();
     for(let r=0; r<rows; r++){
         let row=[]
         for(let c=0; c<columns;c++){
@@ -108,10 +146,12 @@ function clickTecla(){
         // alert("GAME OVER");
         gameOver = true;
         revelaMinas();
-        menuMinas.innerHTML = '<h1 style="color: red; font-size:3em;">BOOOOOMMM!!!</h1>';
+        stopTimer();
+        stopwatch=false;
+        menuMinas.innerHTML = '<h1 style="color: red; font-size:3em;">GAME OVER!!!</h1>';
         return;
     }
-
+    if(!stopwatch){startTimer(); stopwatch=true;};
     let coordenadas = tecla.id.split('-');
     let r = parseInt(coordenadas[0]);
     let c = parseInt(coordenadas[1]);
@@ -153,7 +193,7 @@ function compruebaBomba(r, c){
         tablero[r][c].innerText = bombas;
         tablero[r][c].classList.add('x' + bombas.toString());
     }else{
-        // caso de que comprobemos una tecla que no tiene ninguna boomba adyacente desvela todas las teclas vacias cercanas con llamadas recursivas a esta fuincion
+        // caso de que comprobemos una tecla que no tiene ninguna bomba adyacente desvela todas las teclas vacias cercanas con llamadas recursivas a esta fuincion
         // pasando las teclas adyacentes y comprobando si estas tambien estan vacias
         tablero[r][c].innerText='';
         // teclas de arriba
@@ -172,7 +212,13 @@ function compruebaBomba(r, c){
     }
     if(teclasPulsadas == rows*columns - minasNum){
         gameOver=true;
-        menuMinas.innerHTML = '<h1 style="color: green; font-size: 3em;">¡Correcto!</h1>';
+        stopTimer();
+        stopwatch=false;
+        const displayMilliseconds = milliseconds < 10 ? `0${milliseconds}` : milliseconds;
+        const displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+        const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+        menuMinas.innerHTML = '<h1 style="color: hsl(156, 86%, 28%); font-size: 3em;">¡Correcto!</h1>';
+        menuMinas.innerHTML += `<h2 style="color: hsl(21, 89%, 71%); font-size: 2em;">${displayMinutes}:${displaySeconds}:${displayMilliseconds}</h2>`;
     }
 }
 
@@ -230,6 +276,46 @@ function poneBandera(){
     }
     if(teclasPulsadas == rows*columns - minasNum){
         gameOver=true;
+        stopTimer();
+        stopwatch=false;
         menuMinas.innerHTML = '<h1 style="color: green;" style="font-size:3em;">¡Correcto!</h1>';
     }
+}
+
+function colocaMinas(){
+    // establece las posiciones de las bombas en un tablero ficticio para que se puedan ver todas situaciones y ver los colores de cada casilla
+    minasLocation = ["0-0","0-2","0-3","0-5","0-6","0-7","0-8","0-9","0-10","1-8","2-9","0-13","0-14","0-15","0-16","0-17","0-18","1-12","1-14","1-16","1-18","2-13","2-14", "2-16","2-17","2-18"];
+}
+
+function startTimer(){
+    timer = setInterval(updateTimer, 10);
+}
+
+function updateTimer() {
+    milliseconds++;
+    if (milliseconds === 100) {
+      milliseconds = 0;
+      seconds++;
+    }
+    if (seconds === 60) {
+      seconds = 0;
+      minutes++;
+    }
+  
+    const displayMilliseconds = milliseconds < 10 ? `0${milliseconds}` : milliseconds;
+    const displaySeconds = seconds < 10 ? `0${seconds}` : seconds;
+    const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
+  
+    document.getElementById('time').innerHTML = `${displayMinutes}:${displaySeconds}:${displayMilliseconds}`;
+  }
+
+function stopTimer() {
+    clearInterval(timer);
+}
+
+function setTime0(){
+    milliseconds = 0;
+    seconds = 0;
+    minutes= 0;
+    stopwatch=false;
 }
