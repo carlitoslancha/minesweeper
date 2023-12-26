@@ -149,6 +149,7 @@ function clickTecla(){
         stopTimer();
         stopwatch=false;
         menuMinas.innerHTML = '<h1 style="color: red; font-size:3em;">GAME OVER!!!</h1>';
+        menuMinas.innerHTML += '<h4>Selecciona una dificultad para volver a intentarlo.</h4>';
         return;
     }
     if(!stopwatch){startTimer(); stopwatch=true;};
@@ -219,6 +220,7 @@ function compruebaBomba(r, c){
         const displayMinutes = minutes < 10 ? `0${minutes}` : minutes;
         menuMinas.innerHTML = '<h1 style="color: hsl(156, 86%, 28%); font-size: 3em;">¡Correcto!</h1>';
         menuMinas.innerHTML += `<h2 style="color: hsl(21, 89%, 71%); font-size: 2em;">${displayMinutes}:${displaySeconds}:${displayMilliseconds}</h2>`;
+        menuMinas.innerHTML += '<h3>Selecciona una dificultad para volver a empezar.</h3>';
     }
 }
 
@@ -279,6 +281,7 @@ function poneBandera(){
         stopTimer();
         stopwatch=false;
         menuMinas.innerHTML = '<h1 style="color: green;" style="font-size:3em;">¡Correcto!</h1>';
+        menuMinas.innerHTML += '<h2>Selecciona una dificultad para volver a empezar.</h2>';
     }
 }
 
