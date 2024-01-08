@@ -2,12 +2,13 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+   /* border: solid 2px red; */
 }
 
 :root{
     --color-primario: hsl(201, 87%, 85%);
     --color-secundario: hsl(21, 89%, 71%);
-    --color-borde-tablero: hsl(40, 33%, 96%) ;
+    --color-borde-tablero: black ;
     --color-tablero: hsl(144, 82%, 47%);
     --color-ficha-pulsada: hsl(14, 22%, 27%);
     --color-hover: hsl(185, 84%, 38%);
@@ -26,10 +27,10 @@ body{
 
 .lienzo{
     display: grid;
-    grid-template-columns: 15% 70% 15%;
+    grid-template-columns: 10% 80% 10%;
     grid-template-rows: 10% 90%;
     width: clamp(600px, 80%, 1500px);
-    height: 100vh;
+    /* height: 100vh; */
     /* border: 2px solid red; */
     justify-items: center;
     justify-self: center;

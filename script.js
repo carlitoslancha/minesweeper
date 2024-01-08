@@ -29,7 +29,7 @@ let stopwatch = false; // variable booleana que se activa y desactiva cuando el 
 
 crearTablero();
 
-function botonFacilFunc(n){
+function botonFacilFunc(n){ // n es el numero de minas
     juego.style.width = "500px";
     juego.style.height = '500px';
     anchuraTecla=48;
